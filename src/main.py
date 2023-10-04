@@ -1,4 +1,5 @@
 from find_pairs import find_pairs
+from find_centers import find_centers
 from lammps import lammps
 
 # create lammps object
