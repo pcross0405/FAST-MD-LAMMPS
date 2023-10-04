@@ -1,5 +1,9 @@
 from find_pairs import find_pairs
 from find_centers import find_centers
+from iso_loop import iso_loop
+from progress_bar import progress_bar
+from check_center import check_center
+from box_relax import box_relax
 from lammps import lammps
 
 # create lammps object
@@ -59,11 +63,11 @@ while n < iso_limit/2:
 
 # find coordinates for isolobal atoms
 
-   positions = find_centers(pair_ids)
+   positions = find_centers(pair_ids, lmp)
 
 # find coordinate of lowest energy isolobal atom
 
-   iso_coord_and_nrg = iso_loop(new_id, positions)
+   iso_coord_and_nrg = iso_loop(new_id, positions, lmp, n, iso_limit)
 
 # iso_loop function returns [[x,y,z],min_nrg]
 # iso_coord_and_nrg[0] = [x,y,z] aka coordinates of added isolobal atom
@@ -113,7 +117,7 @@ while n < iso_limit/2:
 
 # make sure after final minimization that all isolobal atoms are centered between transition metal pairs
 
-   check_center(pairs, added_atoms)     
+   check_center(pairs, added_atoms, lmp, n, min_nrg, iso_limit, new_id)     
 
 # increment counter
 
