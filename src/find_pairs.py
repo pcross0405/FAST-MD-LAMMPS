@@ -3,7 +3,7 @@ import numpy as np
 
 # function for finding all transition metal pairs within certain radius
 
-def find_pairs(pairs, lmp):
+def find_pairs(pairs, min_dist, max_dist, lmp):
    
 # find all transition metal pairs
 
@@ -31,7 +31,7 @@ def find_pairs(pairs, lmp):
 
    pair_ids = []
    for i, distance in enumerate(dists):
-      if distance > 3.1 and distance < 3.3:
+      if distance > min_dist and distance < max_dist:
          pair_ids.append(list(ids[i]))
 
 # if a pair already had an isolobal atom placed in between then remove that pair from list

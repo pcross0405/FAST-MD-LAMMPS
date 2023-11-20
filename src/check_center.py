@@ -61,7 +61,7 @@ def check_center(tm_pairs, added_atoms, lmp, n, min_nrg, iso_limit, new_id):
 
 # check if distance is greater than cutoff
 
-        if check_distance > 0.05:
+        if check_distance > 0.01:
 
 # move isolobal atom back to true center if distance is greater than cutoff
 # minimize after moving atom 
@@ -80,7 +80,7 @@ def check_center(tm_pairs, added_atoms, lmp, n, min_nrg, iso_limit, new_id):
 
 # update progress bar
 
-            progress_bar(n, iso_limit/2, int(step), min_nrg, new_id, prefix = 'Progress', suffix = '')
+            progress_bar(n, iso_limit, int(step), min_nrg, new_id, prefix = 'Progress', suffix = '')
 
 # rerun function to see if atom stayed centered after minimization
 

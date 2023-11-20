@@ -47,11 +47,11 @@ print('\n\n')
 
 # initial progress bar at 0 completion
 
-progress_bar(0, iso_limit/2, 0, 0, 0, prefix = 'Progress', suffix = '')
+progress_bar(0, iso_limit, 0, 0, 0, prefix = 'Progress', suffix = '')
 
 # minimize box before starting
 
-box_relax()
+box_relax(lmp)
 
 # loop to add isolobal atoms until the 18 - n limit is reached
 

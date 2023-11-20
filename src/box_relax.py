@@ -35,12 +35,12 @@ def box_relax(lmp):
    ymax2 = lmp.extract_box()[1][1]
    zmax2 = lmp.extract_box()[1][2]
 
-# if box lengths are within 5% move on
+# if box lengths are within 0.01% move on
 
-   if 0.95 < xmax1/xmax2 < 1.05 and 0.95 < ymax1/ymax2 < 1.05 and 0.95 < zmax1/zmax2 < 1.05:
+   if 0.9999 < xmax1/xmax2 < 1.0001 and 0.9999 < ymax1/ymax2 < 1.0001 and 0.9999 < zmax1/zmax2 < 1.0001:
       return
 
-# if box lengths are not within 5%, rerun until within 5%   
+# if box lengths are not within 0.01%, rerun until within 0.01%   
 
    else:
       box_relax(lmp)
