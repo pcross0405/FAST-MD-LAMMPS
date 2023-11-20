@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "FAST-MD"
+version = "1.0.0"
+authors = [
+  { name="Patrick Cross", email="pcross@wisc.edu" },
+]
+description = "A package that provides multiple functions to make running FAST-MD simulations more convenient"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/pcross0405/FAST-MD-LAMMPS"
+Issues = "https://github.com/pcross0405/FAST-MD-LAMMPS/issues"
