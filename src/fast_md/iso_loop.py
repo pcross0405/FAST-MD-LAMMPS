@@ -81,7 +81,7 @@ def iso_loop(new_id, positions, lmp, n, iso_limit):
 
 # update progress bar
 
-         progress_bar.progress_bar(n, iso_limit/2, int(step), nrg, new_id, prefix = 'Progress', suffix = '')
+         progress_bar.progress_bar(n, iso_limit, int(step), nrg, new_id, prefix = 'Progress', suffix = '')
          
 # find site with lowest potential energy after addition of isolobal atom
 
