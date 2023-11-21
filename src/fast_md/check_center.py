@@ -8,7 +8,7 @@ def check_center(tm_pairs, added_atoms, lmp, n, min_nrg, iso_limit, new_id):
    
 # find current centers of pairs of transition metals with isolobal atom in between
 
-   current_centers = find_centers(tm_pairs)
+   current_centers = find_centers.find_centers(tm_pairs)
 
 # loop through pair centers
 
@@ -79,7 +79,7 @@ def check_center(tm_pairs, added_atoms, lmp, n, min_nrg, iso_limit, new_id):
 
 # update progress bar
 
-            progress_bar(n, iso_limit, int(step), min_nrg, new_id, prefix = 'Progress', suffix = '')
+            progress_bar.progress_bar(n, iso_limit, int(step), min_nrg, new_id, prefix = 'Progress', suffix = '')
 
 # rerun function to see if atom stayed centered after minimization
 
