@@ -8,7 +8,7 @@ def check_center(tm_pairs, added_atoms, lmp, n, min_nrg, iso_limit, new_id):
    
 # find current centers of pairs of transition metals with isolobal atom in between
 
-   current_centers = find_centers.find_centers(tm_pairs)
+   current_centers = find_centers.find_centers(tm_pairs, lmp)
 
 # loop through pair centers
 
