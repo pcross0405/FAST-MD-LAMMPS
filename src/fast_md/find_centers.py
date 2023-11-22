@@ -34,12 +34,12 @@ def find_centers(pair_ids, lmp):
         ''')
 # extract distance components and coordinates
 
-        coord1X = [x for x in lmp.numpy.extract_compute('Atom1X', LMP_STYLE_ATOM, LMP_TYPE_VECTOR).astype(np.float64) if x != 0][0]
-        coord1Y = [y for y in lmp.numpy.extract_compute('Atom1Y', LMP_STYLE_ATOM, LMP_TYPE_VECTOR).astype(np.float64) if y != 0][0]
-        coord1Z = [z for z in lmp.numpy.extract_compute('Atom1Z', LMP_STYLE_ATOM, LMP_TYPE_VECTOR).astype(np.float64) if z != 0][0]
-        coord2X = [x for x in lmp.numpy.extract_compute('Atom2X', LMP_STYLE_ATOM, LMP_TYPE_VECTOR).astype(np.float64) if x != 0][0]
-        coord2Y = [y for y in lmp.numpy.extract_compute('Atom2Y', LMP_STYLE_ATOM, LMP_TYPE_VECTOR).astype(np.float64) if y != 0][0]
-        coord2Z = [z for z in lmp.numpy.extract_compute('Atom2Z', LMP_STYLE_ATOM, LMP_TYPE_VECTOR).astype(np.float64) if z != 0][0]
+        coord1X = [x for x in lmp.numpy.extract_compute('Atom1X', LMP_STYLE_ATOM, LMP_TYPE_VECTOR).astype(np.float64) if x != 0]
+        coord1Y = [y for y in lmp.numpy.extract_compute('Atom1Y', LMP_STYLE_ATOM, LMP_TYPE_VECTOR).astype(np.float64) if y != 0]
+        coord1Z = [z for z in lmp.numpy.extract_compute('Atom1Z', LMP_STYLE_ATOM, LMP_TYPE_VECTOR).astype(np.float64) if z != 0]
+        coord2X = [x for x in lmp.numpy.extract_compute('Atom2X', LMP_STYLE_ATOM, LMP_TYPE_VECTOR).astype(np.float64) if x != 0]
+        coord2Y = [y for y in lmp.numpy.extract_compute('Atom2Y', LMP_STYLE_ATOM, LMP_TYPE_VECTOR).astype(np.float64) if y != 0]
+        coord2Z = [z for z in lmp.numpy.extract_compute('Atom2Z', LMP_STYLE_ATOM, LMP_TYPE_VECTOR).astype(np.float64) if z != 0]
 
 # list comprehension above removes zeros, add zeros back if coordinate happens to be zero
 
@@ -71,12 +71,12 @@ def find_centers(pair_ids, lmp):
 
 # compute coordinates as an angle on a circle
 
-        angle1X = coord1X/xmax*2*np.pi
-        angle1Y = coord1Y/ymax*2*np.pi
-        angle1Z = coord1Z/zmax*2*np.pi
-        angle2X = coord2X/xmax*2*np.pi
-        angle2Y = coord2Y/ymax*2*np.pi
-        angle2Z = coord2Z/zmax*2*np.pi
+        angle1X = coord1X[0]/xmax*2*np.pi
+        angle1Y = coord1Y[0]/ymax*2*np.pi
+        angle1Z = coord1Z[0]/zmax*2*np.pi
+        angle2X = coord2X[0]/xmax*2*np.pi
+        angle2Y = coord2Y[0]/ymax*2*np.pi
+        angle2Z = coord2Z[0]/zmax*2*np.pi
 
 # find average position on circle
 

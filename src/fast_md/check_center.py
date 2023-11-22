@@ -26,9 +26,9 @@ def check_center(tm_pairs, added_atoms, lmp, n, min_nrg, iso_limit, new_id):
 
 # extract coordinates of isolobal atom
 
-        iso_atom_x = [x for x in lmp.numpy.extract_compute('IsolobalAtomX', LMP_STYLE_ATOM, LMP_TYPE_VECTOR).astype(np.float64) if x != 0][0]
-        iso_atom_y = [y for y in lmp.numpy.extract_compute('IsolobalAtomY', LMP_STYLE_ATOM, LMP_TYPE_VECTOR).astype(np.float64) if y != 0][0]
-        iso_atom_z = [z for z in lmp.numpy.extract_compute('IsolobalAtomZ', LMP_STYLE_ATOM, LMP_TYPE_VECTOR).astype(np.float64) if z != 0][0]
+        iso_atom_x = [x for x in lmp.numpy.extract_compute('IsolobalAtomX', LMP_STYLE_ATOM, LMP_TYPE_VECTOR).astype(np.float64) if x != 0]
+        iso_atom_y = [y for y in lmp.numpy.extract_compute('IsolobalAtomY', LMP_STYLE_ATOM, LMP_TYPE_VECTOR).astype(np.float64) if y != 0]
+        iso_atom_z = [z for z in lmp.numpy.extract_compute('IsolobalAtomZ', LMP_STYLE_ATOM, LMP_TYPE_VECTOR).astype(np.float64) if z != 0]
 
 # list comprehension above removes zeros, add 0 back if coordinate happens to be zero
 
@@ -50,9 +50,9 @@ def check_center(tm_pairs, added_atoms, lmp, n, min_nrg, iso_limit, new_id):
 
 # find difference between true pair center and isolobal atom coordinates
 
-        dx = center[0] - iso_atom_x
-        dy = center[1] - iso_atom_y
-        dz = center[2] - iso_atom_z
+        dx = center[0] - iso_atom_x[0]
+        dy = center[1] - iso_atom_y[0]
+        dz = center[2] - iso_atom_z[0]
 
 # compute distance between atom and true center
 
