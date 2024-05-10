@@ -9,35 +9,33 @@ from lammps import LMP_TYPE_VECTOR, LMP_STYLE_ATOM, LMP_TYPE_ARRAY, LMP_STYLE_LO
 
 # function for optimizing simulation box
 
-def box_relax(*args):
-   
-    lmp = args[0]
+def box_relax(lmp, x_press, y_press, z_press, xy_press = None, xz_press = None, yz_press = None):
 
-    if len(args) == 7:
+    if xy_press != None and xz_press != None and yz_press != None:
 
         # define fix to optimize box during minimization run
 
-        lmp.commands_string('''
-        fix BoxRelax all box/relax x {} y {} z {} xy {} xz {} yz {} nreset 1
+        lmp.commands_string(f'''
+        fix BoxRelax all box/relax x {x_press} y {y_press} z {z_press} xy {xy_press} xz {xz_press} yz {yz_press} nreset 1
         min_style sd
         minimize 0 1e-10 1000 10000
         unfix BoxRelax
         min_style sd
         minimize 0 1e-10 1000 10000
-        '''.format(args[1], args[2], args[3], args[4], args[5], args[6]))
+        ''')
 
     else:
 
         # define fix to optimize box during minimization run
 
-        lmp.commands_string('''
-        fix BoxRelax all box/relax x {} y {} z {} nreset 1
+        lmp.commands_string(f'''
+        fix BoxRelax all box/relax x {x_press} y {y_press} z {z_press} nreset 1
         min_style sd
         minimize 0 1e-10 1000 10000
         unfix BoxRelax
         min_style sd
         minimize 0 1e-10 1000 10000
-        '''.format(args[1], args[2], args[3]))
+        ''')
 
     # extract box lengths after first optimization
 
@@ -49,31 +47,31 @@ def box_relax(*args):
     ymin1 = lmp.extract_box()[0][1]
     zmin1 = lmp.extract_box()[0][2]
 
-    if len(args) == 7:
+    if xy_press != None and xz_press != None and yz_press != None:
 
         # define fix to optimize box during minimization run
 
-        lmp.commands_string('''
-        fix BoxRelax all box/relax x {} y {} z {} xy {} xz {} yz {} nreset 1
+        lmp.commands_string(f'''
+        fix BoxRelax all box/relax x {x_press} y {y_press} z {z_press} xy {xy_press} xz {xz_press} yz {yz_press} nreset 1
         min_style sd
         minimize 0 1e-10 1000 10000
         unfix BoxRelax
         min_style sd
         minimize 0 1e-10 1000 10000
-        '''.format(args[1], args[2], args[3], args[4], args[5], args[6]))
+        ''')
 
     else:
 
         # define fix to optimize box during minimization run
 
-        lmp.commands_string('''
-        fix BoxRelax all box/relax x {} y {} z {} nreset 1
+        lmp.commands_string(f'''
+        fix BoxRelax all box/relax x {x_press} y {y_press} z {z_press} nreset 1
         min_style sd
         minimize 0 1e-10 1000 10000
         unfix BoxRelax
         min_style sd
         minimize 0 1e-10 1000 10000
-        '''.format(args[1], args[2], args[3]))
+        ''')
 
     # extract box lengths after second optimization
 
@@ -88,17 +86,17 @@ def box_relax(*args):
     # if box lengths are not within 0.01%, rerun
 
     if xmin1/xmin2 < 0.9999 or xmin1/xmin2 > 1.0001:
-        box_relax(*args)
+        box_relax(lmp, x_press, y_press, z_press, xy_press, xz_press, yz_press)
     if ymin1/ymin2 < 0.9999 or ymin1/ymin2 > 1.0001:
-        box_relax(*args)
+        box_relax(lmp, x_press, y_press, z_press, xy_press, xz_press, yz_press)
     if zmin1/zmin2 < 0.9999 or zmin1/zmin2 > 1.0001:
-        box_relax(*args)
+        box_relax(lmp, x_press, y_press, z_press, xy_press, xz_press, yz_press)
     if xmax1/xmax2 < 0.9999 or xmax1/xmax2 > 1.0001:
-        box_relax(*args)
+        box_relax(lmp, x_press, y_press, z_press, xy_press, xz_press, yz_press)
     if ymax1/ymax2 < 0.9999 or ymax1/ymax2 > 1.0001:
-        box_relax(*args)
+        box_relax(lmp, x_press, y_press, z_press, xy_press, xz_press, yz_press)
     if zmax1/zmax2 < 0.9999 or zmax1/zmax2 > 1.0001:
-        box_relax(*args)
+        box_relax(lmp, x_press, y_press, z_press, xy_press, xz_press, yz_press)
 
     # if box lengths are within 0.01%, return
 
@@ -109,7 +107,7 @@ def box_relax(*args):
 
 # function for checking if isolobal atoms remain in center of transition metals
 
-def check_center(tm_pairs, added_atoms, lmp, n, min_nrg, iso_limit, new_id):
+def check_center(tm_pairs, added_atoms, lmp, n, min_nrg, iso_limit, new_id, min_style = 'sd'):
    
     # find current centers of pairs of transition metals with isolobal atom in between
 
@@ -159,6 +157,59 @@ def check_center(tm_pairs, added_atoms, lmp, n, min_nrg, iso_limit, new_id):
         dy = center[1] - iso_atom_y[0]
         dz = center[2] - iso_atom_z[0]
 
+        # move isolobal atom back to true center
+        # minimize after moving atom 
+
+        lmp.commands_string(f'''
+        group MoveAtom id {added_atoms[i]}
+        displace_atoms MoveAtom move {dx} {dy} {dz}
+        min_style {min_style}
+        minimize 0 1e-10 1000 10000
+        group MoveAtom delete
+        ''')
+
+        # recompute distance from center after minimization
+        # compute x,y,z coordinates of isolobal atom in between transition metal pair
+
+        lmp.commands_string(f'''
+        group IsolobalAtom id {added_atoms[i]}
+        compute IsolobalAtomX IsolobalAtom property/atom x
+        compute IsolobalAtomY IsolobalAtom property/atom y
+        compute IsolobalAtomZ IsolobalAtom property/atom z
+        run 0
+        ''')
+
+        # extract coordinates of isolobal atom
+
+        iso_atom_x = [x for x in lmp.numpy.extract_compute('IsolobalAtomX', LMP_STYLE_ATOM, LMP_TYPE_VECTOR).astype(np.float64) if x != 0]
+        iso_atom_y = [y for y in lmp.numpy.extract_compute('IsolobalAtomY', LMP_STYLE_ATOM, LMP_TYPE_VECTOR).astype(np.float64) if y != 0]
+        iso_atom_z = [z for z in lmp.numpy.extract_compute('IsolobalAtomZ', LMP_STYLE_ATOM, LMP_TYPE_VECTOR).astype(np.float64) if z != 0]
+
+        # iso_atom_x looks like [0, 0, 0, ...., X, ....., 0, 0, 0] where 0's are put in for all atoms not part of the lammps compute
+        # list comprehension above removes 0's, add 0 back if coordinate happens to be zero
+
+        if iso_atom_x == []:
+            iso_atom_x = [0.0]
+        if iso_atom_y == []:
+            iso_atom_y = [0.0]
+        if iso_atom_z == []:
+            iso_atom_z = [0.0]
+
+        # delete computes and group before next loop iteration
+
+        lmp.commands_string('''
+        uncompute IsolobalAtomX
+        uncompute IsolobalAtomY
+        uncompute IsolobalAtomZ
+        group IsolobalAtom delete                                                                               
+        ''')
+
+        # find difference between true pair center and isolobal atom coordinates
+
+        dx = center[0] - iso_atom_x[0]
+        dy = center[1] - iso_atom_y[0]
+        dz = center[2] - iso_atom_z[0]
+
         # compute distance between atom and true center
 
         check_distance = ((dx)**2 + (dy)**2 + (dz)**2)**(1/2)
@@ -166,17 +217,6 @@ def check_center(tm_pairs, added_atoms, lmp, n, min_nrg, iso_limit, new_id):
         # check if distance is greater than cutoff
 
         if check_distance > 0.01:
-
-            # move isolobal atom back to true center if distance is greater than cutoff
-            # minimize after moving atom 
-
-            lmp.commands_string(f'''
-            group MoveAtom id {added_atoms[i]}
-            displace_atoms MoveAtom move {dx} {dy} {dz}
-            min_style sd
-            minimize 0 1e-10 1000 10000
-            group MoveAtom delete
-            ''')
 
             # get current step
 
@@ -189,7 +229,11 @@ def check_center(tm_pairs, added_atoms, lmp, n, min_nrg, iso_limit, new_id):
             # rerun function to see if atom stayed centered after minimization
 
             check_center([tm_pairs[i]], [added_atoms[i]], lmp, n, min_nrg, iso_limit, new_id)
-            break
+        
+        # if distance less than cutoff, return
+
+        else:
+            return
 
 #----------------------------------------------------------------------------------------------------------------#
 
@@ -395,13 +439,17 @@ def iso_loop(new_id, positions, lmp, n, iso_limit):
         # region2 will be the periodic image of region if region1 happens to be on boundary
 
         region2 = list(atom_pos)
+
         for i, val in enumerate(region2):
             region2[i] = val/box_lengths[i]*2*np.pi
+
         for i, val in enumerate(region2):
             if val > (box_lengths[i] - 0.5)/box_lengths[i]*2*np.pi:
                 region2[i] = val - 2*np.pi
+
             elif val < (0.5)/box_lengths[i]*2*np.pi:
                 region2[i] = val + 2*np.pi
+                
         for i, val in enumerate(region2):
             region2[i] = box_lengths[i]*(np.arctan2(-np.sin(region2[i]),-np.cos(region2[i])) + np.pi)/(2*np.pi)
 
