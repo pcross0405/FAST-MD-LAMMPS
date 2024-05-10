@@ -251,7 +251,7 @@ def check_center(tm_pairs, added_atoms, lmp, n, min_nrg, iso_limit, new_id, min_
 
             # rerun function to see if atom stayed centered after minimization
 
-            check_center(tm_pairs, added_atoms, lmp, n, min_nrg, iso_limit, new_id)
+            check_center([tm_pairs[i]], [added_atoms[i]], lmp, n, min_nrg, iso_limit, new_id)
     
     return
 
