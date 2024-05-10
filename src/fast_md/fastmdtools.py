@@ -206,26 +206,20 @@ def check_center(tm_pairs, added_atoms, lmp, n, min_nrg, iso_limit, new_id, min_
 
         # check if iso atom is at the boundary
         # floating point errors can cause point on boundary to either be 0 or x_max/y_max/z_max
-        # grab lengths of simulation box
-
-        xmax = lmp.extract_box()[1][0] - lmp.extract_box()[0][0]
-        ymax = lmp.extract_box()[1][1] - lmp.extract_box()[0][1]
-        zmax = lmp.extract_box()[1][2] - lmp.extract_box()[0][2]
-
         # check if iso atom and true center are within 0.01% of the boundary
         # if they are, make them the same value so the check distance is not artificially large
 
-        if np.abs(iso_atom_x[0]/xmax) < 0.0001 or 1 - np.abs(iso_atom_x[0]/xmax) < 0.0001:
-            if np.abs(center[0]/xmax) < 0.0001 or 1 - np.abs(center[0]/xmax) <  0.0001:
+        if np.abs(iso_atom_x[0]/lmp.extract_box()[1][0]) < 0.0001 or 1 - np.abs(iso_atom_x[0]/lmp.extract_box()[0][0]) < 0.0001:
+            if np.abs(center[0]/lmp.extract_box()[1][0]) < 0.0001 or 1 - np.abs(center[0]/lmp.extract_box()[0][0]) <  0.0001:
                 iso_atom_x[0] = center[0]
         
-        if np.abs(iso_atom_y[0]/ymax) < 0.0001 or 1 - np.abs(iso_atom_y[0]/ymax) < 0.0001:
-            if np.abs(center[1]/ymax) < 0.0001 or 1 - np.abs(center[1]/ymax) <  0.0001:
-                iso_atom_y[0] = center[0]
+        if np.abs(iso_atom_y[0]/lmp.extract_box()[1][1]) < 0.0001 or 1 - np.abs(iso_atom_y[0]/lmp.extract_box()[0][1]) < 0.0001:
+            if np.abs(center[1]/lmp.extract_box()[1][1]) < 0.0001 or 1 - np.abs(center[1]/lmp.extract_box()[0][1]) <  0.0001:
+                iso_atom_y[0] = center[1]
 
-        if np.abs(iso_atom_z[0]/zmax) < 0.0001 or 1 - np.abs(iso_atom_z[0]/zmax) < 0.0001:
-            if np.abs(center[2]/zmax) < 0.0001 or 1 - np.abs(center[2]/zmax) <  0.0001:
-                iso_atom_z[0] = center[0]
+        if np.abs(iso_atom_z[0]/lmp.extract_box()[1][2]) < 0.0001 or 1 - np.abs(iso_atom_z[0]/lmp.extract_box()[0][2]) < 0.0001:
+            if np.abs(center[2]/lmp.extract_box()[1][2]) < 0.0001 or 1 - np.abs(center[2]/lmp.extract_box()[0][2]) <  0.0001:
+                iso_atom_z[0] = center[2]
 
         # find difference between true pair center and isolobal atom coordinates
 
