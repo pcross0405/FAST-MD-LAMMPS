@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------------------------------  
-<p align="center">FAST-MD (22 Nov. 2023)</p>
+<span style="font-size:0.5em;"><p align="center">FAST-MD (22 Nov. 2023)</p></span>
 -------------------------------------------------------------------------------------------------------  
 
 A package that enables molecular dynamic simulations to incorporate the FAST principle via LAMMPS.  
