@@ -51,6 +51,4 @@ Replace /name-of-module with the name of the module you wish to use (i.e. /name-
 Please report any issues to "https://github.com/pcross0405/FAST-MD-LAMMPS/issues"  
 
 -------------------------------------------------------------------------------------------------------------------------  
-<span style="font-size:0.5em;"><p align="center">-- SEE SAMPLES DIRECTORY FOR AN EXAMPLE OF HOW TO IMPLEMENT THE PACKAGE IN A PYTHON SCRIPT THAT INTERFACES WITH LAMMPS --  
-</p></span>
--------------------------------------------------------------------------------------------------------------------------  
+<span style="font-size:0.5em;"><p align="center">SEE SAMPLES DIRECTORY FOR AN EXAMPLE OF HOW TO IMPLEMENT THE PACKAGE IN A PYTHON SCRIPT THAT INTERFACES WITH LAMMPS</p></span>
