@@ -209,9 +209,13 @@ def check_center(tm_pairs, added_atoms, lmp, n, min_nrg, iso_limit, new_id, min_
         # check if iso atom and true center are within 0.01% of the boundary
         # if they are, make them the same value so the check distance is not artificially large
 
-        x_max = lmp.extract_box()[1][0]
+        x_max = lmp.extract_box()[1][0] 
         y_max = lmp.extract_box()[1][1]
         z_max = lmp.extract_box()[1][2]
+
+        x_len = lmp.extract_box()[1][0] - lmp.extract_box()[0][0] 
+        y_len = lmp.extract_box()[1][1] - lmp.extract_box()[0][1] 
+        z_len = lmp.extract_box()[1][2] - lmp.extract_box()[0][2] 
 
         if np.abs((iso_atom_x[0] - x_max)/x_max) < 0.0001 or np.abs((iso_atom_x[0] - x_max)/x_max) > 0.9999:
             if np.abs((center[0] - x_max)/x_max) < 0.0001 or  np.abs((center[0] - x_max)/x_max) > 0.9999:
@@ -230,6 +234,13 @@ def check_center(tm_pairs, added_atoms, lmp, n, min_nrg, iso_limit, new_id, min_
         dx = center[0] - iso_atom_x[0]
         dy = center[1] - iso_atom_y[0]
         dz = center[2] - iso_atom_z[0]
+
+        if np.abs((np.abs(dx) - x_len)/x_len) < 0.0001 or np.abs((np.abs(dx) - x_len)/x_len) > 0.9999:
+            dx = 0.0
+        if np.abs((np.abs(dy) - y_len)/y_len) < 0.0001 or np.abs((np.abs(dy) - y_len)/y_len) > 0.9999:
+            dy = 0.0
+        if np.abs((np.abs(dz) - z_len)/z_len) < 0.0001 or np.abs((np.abs(dz) - z_len)/z_len) > 0.9999:
+            dz = 0.0
 
         # compute distance between atom and true center
 
@@ -344,9 +355,9 @@ def find_centers(pair_ids, lmp):
 
         # find average angle from average positions
 
-        x_ang_avg = np.arctan2(-x_p2_avg, -x_p1_avg) + np.pi
-        y_ang_avg = np.arctan2(-y_p2_avg, -y_p1_avg) + np.pi
-        z_ang_avg = np.arctan2(-z_p2_avg, -z_p1_avg) + np.pi
+        x_ang_avg = np.arctan2(x_p2_avg, x_p1_avg)
+        y_ang_avg = np.arctan2(y_p2_avg, y_p1_avg) 
+        z_ang_avg = np.arctan2(z_p2_avg, z_p1_avg)
 
         # find center of atoms
 
