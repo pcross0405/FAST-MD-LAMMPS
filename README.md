@@ -1,11 +1,11 @@
 -------------------------------------------------------------------------------------------------------  
-<span style="font-size:0.5em;"><p align="center">FAST-MD (22 Nov. 2023)</p></span>
+<span style="font-size:0.5em;"><p align="center">FAST-MD OVERVIEW</p></span>
 -------------------------------------------------------------------------------------------------------  
 
 A package that enables molecular dynamic simulations to incorporate the FAST principle via LAMMPS.  
 
 -------------------------------------------------------------------------------------------------------  
---------------------------------------- INSTALLATION INSTRUCTIONS -------------------------------------  
+<span style="font-size:0.5em;"><p align="center">INSTALLATION INSTRUCTIONS</p></span>
 -------------------------------------------------------------------------------------------------------  
 
 1) Make a directory to build the package in
@@ -25,7 +25,7 @@ A package that enables molecular dynamic simulations to incorporate the FAST pri
    "pip install dist/'*.whl'" 
 
 -------------------------------------------------------------------------------------------------------  
----------------------------------------- INSTRUCTIONS FOR USE -----------------------------------------  
+<span style="font-size:0.5em;"><p align="center">INSTRUCTIONS FOR USE</p></span>
 -------------------------------------------------------------------------------------------------------  
 
 To use any of the modules in this package in a python script type  
@@ -45,7 +45,7 @@ Replace the "version-number" in /python-version-number/ with the version number 
 Replace /name-of-module with the name of the module you wish to use (i.e. /name-of-module -> /check_center.py)  
 
 ---------------------------------------------------------------------------------------------------------  
-------------------------------------------- REPORTING ISSUES --------------------------------------------  
+<span style="font-size:0.5em;"><p align="center">REPORTING ISSUES</p></span>
 ---------------------------------------------------------------------------------------------------------  
 
 Please report any issues to "https://github.com/pcross0405/FAST-MD-LAMMPS/issues"  
