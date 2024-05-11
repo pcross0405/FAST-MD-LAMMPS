@@ -204,36 +204,20 @@ def check_center(tm_pairs, added_atoms, lmp, n, min_nrg, iso_limit, new_id, min_
         group IsolobalAtom delete                                                                               
         ''')
 
-        # check if iso atom is at the boundary
-        # floating point errors can cause point on boundary to either be 0 or x_max/y_max/z_max
-        # check if iso atom and true center are within 0.01% of the boundary
-        # if they are, make them the same value so the check distance is not artificially large
-
-        x_max = lmp.extract_box()[1][0] 
-        y_max = lmp.extract_box()[1][1]
-        z_max = lmp.extract_box()[1][2]
-
-        x_len = lmp.extract_box()[1][0] - lmp.extract_box()[0][0] 
-        y_len = lmp.extract_box()[1][1] - lmp.extract_box()[0][1] 
-        z_len = lmp.extract_box()[1][2] - lmp.extract_box()[0][2] 
-
-        if np.abs((iso_atom_x[0] - x_max)/x_max) < 0.0001 or np.abs((iso_atom_x[0] - x_max)/x_max) > 0.9999:
-            if np.abs((center[0] - x_max)/x_max) < 0.0001 or  np.abs((center[0] - x_max)/x_max) > 0.9999:
-                iso_atom_x[0] = center[0]
-        
-        if np.abs((iso_atom_y[0] - y_max)/y_max) < 0.0001 or np.abs((iso_atom_y[0] - y_max)/y_max) > 0.9999:
-            if np.abs((center[1] - y_max)/y_max) < 0.0001 or np.abs((center[1] - y_max)/y_max) > 0.9999:
-                iso_atom_y[0] = center[1]
-
-        if np.abs((iso_atom_z[0] - z_max)/z_max) < 0.0001 or np.abs((iso_atom_z[0] - z_max)/z_max) > 0.9999:
-            if np.abs((center[2] - z_max)/z_max) < 0.0001 or np.abs((center[2] - z_max)/z_max) > 0.9999:
-                iso_atom_z[0] = center[2]
-
         # find difference between true pair center and isolobal atom coordinates
 
         dx = center[0] - iso_atom_x[0]
         dy = center[1] - iso_atom_y[0]
         dz = center[2] - iso_atom_z[0]
+
+        # check if iso atom is at the boundary
+        # floating point errors can cause point on boundary to either be 0 or x_max/y_max/z_max
+        # check if iso atom and true center are within 0.01% of the boundary
+        # if they are, make difference 0
+        
+        x_len = lmp.extract_box()[1][0] - lmp.extract_box()[0][0] 
+        y_len = lmp.extract_box()[1][1] - lmp.extract_box()[0][1] 
+        z_len = lmp.extract_box()[1][2] - lmp.extract_box()[0][2] 
 
         if np.abs((np.abs(dx) - x_len)/x_len) < 0.0001 or np.abs((np.abs(dx) - x_len)/x_len) > 0.9999:
             dx = 0.0
