@@ -21,7 +21,7 @@ def box_relax(lmp, x_press, y_press, z_press, xy_press = None, xz_press = None, 
         minimize 0 1e-10 1000 10000
         unfix BoxRelax
         min_style sd
-        minimize 0 1e-10 1000 10000
+        minimize 1e-4 1e-3 1000 10000
         ''')
 
     else:
@@ -34,7 +34,7 @@ def box_relax(lmp, x_press, y_press, z_press, xy_press = None, xz_press = None, 
         minimize 0 1e-10 1000 10000
         unfix BoxRelax
         min_style sd
-        minimize 0 1e-10 1000 10000
+        minimize 1e-4 1e-3 1000 10000
         ''')
 
     # extract box lengths after first optimization
@@ -57,7 +57,7 @@ def box_relax(lmp, x_press, y_press, z_press, xy_press = None, xz_press = None, 
         minimize 0 1e-10 1000 10000
         unfix BoxRelax
         min_style sd
-        minimize 0 1e-10 1000 10000
+        minimize 1e-4 1e-3 1000 10000
         ''')
 
     else:
@@ -70,7 +70,7 @@ def box_relax(lmp, x_press, y_press, z_press, xy_press = None, xz_press = None, 
         minimize 0 1e-10 1000 10000
         unfix BoxRelax
         min_style sd
-        minimize 0 1e-10 1000 10000
+        minimize 1e-4 1e-3 1000 10000
         ''')
 
     # extract box lengths after second optimization
@@ -164,7 +164,7 @@ def check_center(tm_pairs, added_atoms, lmp, n, min_nrg, iso_limit, new_id, min_
         group MoveAtom id {added_atoms[i]}
         displace_atoms MoveAtom move {dx} {dy} {dz}
         min_style {min_style}
-        minimize 0 1e-10 1000 10000
+        minimize 1e-4 1e-3 1000 10000
         group MoveAtom delete
         ''')
 
